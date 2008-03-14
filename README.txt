@@ -1,6 +1,8 @@
 = ruby-otp
 
-http://ruby-otp.rubyforge.org
+by Guillaume Pierronnet
+* http://ruby-otp.rubyforge.org
+* http://rubyforge.org/projects/ruby-otp/
 
 == DESCRIPTION:
 
