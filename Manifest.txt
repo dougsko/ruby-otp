@@ -2,6 +2,6 @@ History.txt
 Manifest.txt
 README.txt
 Rakefile
-bin/ruby-otp
-lib/ruby-otp.rb
+lib/otp.rb
+test/fixtures.yml
 test/test_ruby-otp.rb

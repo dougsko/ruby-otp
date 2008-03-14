@@ -8,10 +8,10 @@ Hoe.new('ruby-otp', OTP::VERSION) do |p|
   p.rubyforge_name = 'ruby-otp'
   p.author = 'Guillaume Pierronnet'
   p.email = 'moumar@rubyforge.org'
-  # p.summary = 'FIX'
-  # p.description = p.paragraphs_of('README.txt', 2..5).join("\n\n")
-  # p.url = p.paragraphs_of('README.txt', 0).first.split(/\n/)[1..-1]
+  p.summary = p.description = p.paragraphs_of('README.txt', 3).first
+  p.url = p.paragraphs_of('README.txt', 1).first
   p.changes = p.paragraphs_of('History.txt', 0..1).join("\n\n")
+  p.remote_rdoc_dir = ''
 end
 
 desc "generate the test fixtures"

@@ -4,7 +4,7 @@ http://ruby-otp.rubyforge.org
 
 == DESCRIPTION:
 
-ruby-otp is a One Time Password library 
+ruby-otp is a One Time Password library, compatible with OPIE and S/KEY, and RFC 1760 compliant.
 
 == FEATURES/PROBLEMS:
 
@@ -27,6 +27,10 @@ ruby-otp is a One Time Password library
   else
     puts "you're not authorized"
   end
+
+== TODO
+
+* RFC 2289 support 
 
 == REQUIREMENTS:
 
