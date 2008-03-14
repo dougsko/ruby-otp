@@ -125,19 +125,17 @@ class OTP
   ALGO_MAP = { 'md4' => OpenSSL::Digest::MD4,
                'md5' => Digest::MD5 }.freeze
 
-  # generate a pseudo-random seed as a string 
-  # matching /^[a-z]{2}\d{4}$/, like "gh1234" or
-  # "zf4326"
+  # generate a pseudo-random seed like "gh1234" or "zf4326"
   def self.generate_seed
     ( (0..1).collect { (rand(26) + 97).chr } +
       (0..3).collect { (rand(10) + 48).chr }).join("")
   end
 
-  # create an OTP instance
-  # passphrase.size must be >= 10 and <= 63.
-  # passphrase must only contains pure ascii (7 bits).
-  # seed should only contains alpha-numeric characters
-  # algo_str can be md4 or md5 (default)
+  # create an OTP instance.
+  # +passphrase+ length must be >= 10 and <= 63.
+  # +passphrase+ must only contains pure ascii characters (7 bits).
+  # +seed+ should only contains alpha-numeric characters.
+  # +algo_str+ can be "md4" or "md5" (default).
   def initialize(seq_num, seed, passphrase, algo_str = 'md5')
     raise ArgumentError, 'passphrase must be from 10 to 63 characters long' unless (10..63).include?(passphrase.size)
 
@@ -161,7 +159,7 @@ class OTP
     end
   end
 
-  # return integer
+  # return integer for this OTP
   def to_i
     (0...8).inject(0) do |sum, i|
       sum <<= 8
@@ -169,10 +167,10 @@ class OTP
     end
   end
 
-  # return phrase for this OTP
+  # return words sentence for this OTP
   def to_s
     parity = 0
-    wi = tmplong = self.to_i
+    wi = tmplong = to_i
     sentence = ""
 
     32.times do |i|
