@@ -1,6 +1,9 @@
 = ruby-otp
 
-by Guillaume Pierronnet
+by dougsko
+* http://github.com/dougsko/ruby-otp
+
+original program by Guillaume Pierronnet
 * http://ruby-otp.rubyforge.org
 * http://rubyforge.org/projects/ruby-otp/
 
