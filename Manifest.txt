@@ -1,7 +1,14 @@
-History.txt
-Manifest.txt
-README.txt
-Rakefile
-lib/otp.rb
-test/fixtures.yml
-test/test_ruby-otp.rb
+.
+|-- History.txt
+|-- Manifest.txt
+|-- README.txt
+|-- Rakefile
+|-- VERSION.yml
+|-- lib
+|   `-- otp.rb
+`-- spec
+    |-- fixtures.yml
+    |-- ruby-otp_spec.rb
+    `-- spec_helper.rb
+
+2 directories, 9 files
