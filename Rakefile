@@ -1,37 +1,50 @@
-# -*- ruby -*-
+# Rakefile for ruby-otp
+#
+#
 
 require 'rubygems'
-require 'hoe'
-require './lib/otp.rb'
+require 'rake'
+require 'yaml'
 
-Hoe.new('ruby-otp', OTP::VERSION) do |p|
-  p.rubyforge_name = 'ruby-otp'
-  p.author = 'Guillaume Pierronnet'
-  p.email = 'moumar@rubyforge.org'
-  p.summary = p.description = p.paragraphs_of('README.txt', 3).first
-  p.url = p.paragraphs_of('README.txt', 1).first
-  p.changes = p.paragraphs_of('History.txt', 0..1).join("\n\n")
-  p.remote_rdoc_dir = ''
+begin
+    require 'jeweler'
+    Jeweler::Tasks.new do |s|
+        s.name = "ruby-otp"
+        #s.executables = "jeweler"
+        s.summary = "Fork of the ruby-otp project at http://rubyforge.org/projects/ruby-otp"
+        s.email = "dougtko@gmail.com"
+        s.homepage = "http://github.com/dougsko/ruby-otp"
+        s.description = "Fork of the ruby-otp project at http://rubyforge.org/projects/ruby-otp.  This version provides support for more secure hashing algorithms."
+        s.authors = ["dougsko"]
+        s.files =  FileList["[A-Z]*", "{bin,generators,lib,spec}/**/*", 
+            'lib/jeweler/templates/.gitignore']
+        #s.add_dependency 'schacon-git'
+end
+rescue LoadError
+    puts "Jeweler, or one of its dependencies, is not available. Install it with: sudo gem install 
+        technicalpickles-jeweler -s http://gems.github.com"
 end
 
-desc "generate the test fixtures"
-task :generate_fixtures do
-  require "yaml"
-
-  fixtures = {}
-  %w{md4 md5}.each do |algo|
-    fixtures[algo] = []
-    ['this is a pass', 'aqsdf234qsdf ,;:,sqdfp")q', 'eeazqsd123123123', 'sqdklmfvxcwvBU(/ysdfqsdf$' ].each do |passphrase|
-      seq_num = rand(500) + 1
-      seed = "fs9332"
-
-      sentence = open("|opiekey -#{algo[-1].chr} -n 1 #{seq_num} #{seed} 2>/dev/null", "r+") do |io|
-        io.puts(passphrase)
-        io.read.chop
-      end
-      fixtures[algo] << { "seed" => seed, "seq_num" => seq_num, "passphrase" => passphrase, "sentence" => sentence  }
-    end
-  end
-  File.open("test/fixtures.yml", "w") { |f| f.write(fixtures.to_yaml) }
+require 'rake/rdoctask'
+Rake::RDocTask.new do |rdoc|
+    rdoc.rdoc_dir = 'rdoc'
+    rdoc.title = 'ruby-otp'
+    rdoc.options << '--line-numbers' << '--inline-source'
+    rdoc.rdoc_files.include('README*')
+    rdoc.rdoc_files.include('lib/**/*.rb')
 end
-# vim: syntax=ruby
+
+require 'spec/rake/spectask'
+Spec::Rake::SpecTask.new(:spec) do |spec|
+    spec.libs << 'lib' << 'spec'
+    spec.spec_files = FileList['spec/**/*_spec.rb']
+    spec.spec_opts = ['--color']
+end
+
+Spec::Rake::SpecTask.new(:rcov) do |spec|
+    spec.libs << 'lib' << 'spec'
+    spec.pattern = 'spec/**/*_spec.rb'
+    spec.rcov = true
+end
+
+task :default => :spec

@@ -1,4 +1,5 @@
 require "digest/md5"
+require "digest/sha1"
 require "openssl"
 
 class OTP
@@ -123,7 +124,8 @@ class OTP
   YOKE}
 
   ALGO_MAP = { 'md4' => OpenSSL::Digest::MD4,
-               'md5' => Digest::MD5 }.freeze
+               'md5' => Digest::MD5, 
+               'sha1' => Digest::SHA1 }.freeze
 
   # generate a pseudo-random seed like "gh1234" or "zf4326"
   def self.generate_seed
