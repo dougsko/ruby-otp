@@ -33,3 +33,12 @@ md5:
   seed: fs9332
   sentence: BUNK SLOG SAYS SKIT ALTO WU
   passphrase: sqdklmfvxcwvBU(/ysdfqsdf$
+sha1:
+- seq_num: 420
+  seed: fs9332
+  sentence: TOGO JAW HUGE CAW BAND KIM
+  passphrase: this is a pass
+- seq_num: 240
+  seed: fs9332
+  sentence: VEND JAB FEED TOM IDEA LURK
+  passphrase: sqdklmfvxcwvBU(/ysdfqsdf$
