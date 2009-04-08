@@ -2,8 +2,6 @@
 #
 #
 
-require 'rubygems'
-require 'rake'
 require 'yaml'
 
 begin
@@ -45,6 +43,7 @@ Spec::Rake::SpecTask.new(:rcov) do |spec|
     spec.libs << 'lib' << 'spec'
     spec.pattern = 'spec/**/*_spec.rb'
     spec.rcov = true
+    spec.spec_opts = ['--color']
 end
 
 task :default => :spec
