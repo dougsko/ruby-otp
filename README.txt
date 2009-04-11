@@ -10,12 +10,14 @@ original program by Guillaume Pierronnet
 == DESCRIPTION:
 
 ruby-otp is a One Time Password library, compatible with OPIE and S/KEY, and RFC 1760 compliant.
+This fork supports SHA1 and several SHA2 hashing algorithms. 
 
 == FEATURES/PROBLEMS:
 
 * pure ruby
 * RFC 1760 compliant 
 * OPIE and S/KEY compatible
+* Mostly RFC 2289 compliant
 
 == SYNOPSIS:
 
@@ -32,10 +34,6 @@ ruby-otp is a One Time Password library, compatible with OPIE and S/KEY, and RFC
   else
     puts "you're not authorized"
   end
-
-== TODO
-
-* RFC 2289 support 
 
 == REQUIREMENTS:
 
