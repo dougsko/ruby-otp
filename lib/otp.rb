@@ -152,12 +152,22 @@ class OTP
 
     algo = ALGO_MAP[algo_str]
 
+    if algo == "sha1"
+        (seq_num+1).times do
+            regs = algo.digest(@hash).unpack("V5")
+            regs[0] ^ regs[2]
+            regs[1] ^ regs[3]
+            regs[0] ^ regs[4]
+            @hash = [regs[0], regs[1]].pack("V2")
+        end
+  else
     (seq_num+1).times do
       regs = algo.digest(@hash).unpack("V4")
       ac = regs[0] ^ regs[2]
       bd = regs[1] ^ regs[3]
       @hash = [ac, bd].pack("V2")
     end
+  end
   end
 
   # return integer for this OTP
