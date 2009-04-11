@@ -4,6 +4,10 @@
 |-- README.txt
 |-- Rakefile
 |-- VERSION.yml
+|-- coverage
+|   |-- index.html
+|   |-- lib-otp_rb.html
+|   `-- spec-ruby-otp_spec_rb.html
 |-- lib
 |   `-- otp.rb
 `-- spec
@@ -11,4 +15,4 @@
     |-- ruby-otp_spec.rb
     `-- spec_helper.rb
 
-2 directories, 9 files
+3 directories, 12 files
