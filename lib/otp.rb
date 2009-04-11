@@ -122,9 +122,12 @@ class OTP
   WORM WORN WOVE WRIT WYNN YALE YANG YANK YARD YARN YAWL YAWN YEAH YEAR YELL YOGA
   YOKE}
 
-  ALGO_MAP = { 'md4' => OpenSSL::Digest::MD4,
-               'md5' => Digest::MD5, 
-               'sha1' => Digest::SHA1 }.freeze
+  ALGO_MAP = {  'md4' => OpenSSL::Digest::MD4,
+                'md5' => Digest::MD5, 
+                'sha1' => Digest::SHA1,
+                'sha256' => Digest::SHA2.new(bitlen = 256),
+                'sha384' => Digest::SHA2.new(bitlen = 384),
+                'sha512' => Digest::SHA2.new(bitlen = 512) }.freeze
 
   # generate a pseudo-random seed like "gh1234" or "zf4326"
   def self.generate_seed
@@ -136,64 +139,66 @@ class OTP
   # +passphrase+ length must be >= 10 and <= 63.
   # +passphrase+ must only contains pure ascii characters (7 bits).
   # +seed+ should only contains alpha-numeric characters.
+  # +seed+ must not contain spaces
   # +algo_str+ can be "md4" or "md5" (default).
-  def initialize(seq_num, seed, passphrase, algo_str = 'md5')
-    raise ArgumentError, 'passphrase must be from 10 to 63 characters long' unless (10..63).include?(passphrase.size)
+    def initialize(seq_num, seed, passphrase, algo_str = 'md5')
+        raise ArgumentError, 'passphrase must be from 10 to 63 characters long' unless (10..63).include?(passphrase.size)
 
-    passphrase.each_byte do |b|
-      raise ArgumentError, 'passphrase contains non-ASCII characters' if b > 127
-    end
+        passphrase.each_byte do |b|
+            raise ArgumentError, 'passphrase contains non-ASCII characters' if b > 127
+        end
 
-    if seed !~ /^\w+$/
-      raise ArgumentError, "seed contains non alpha-numeric characters"
-    end
+        if seed !~ /^\w+$/
+            raise ArgumentError, "seed contains non alpha-numeric characters"
+        end
 
-    @hash = seed+passphrase
+        if seed =~ /^\s+$/
+             raise ArgumentError, "seed must not contain spaces"
+        end
 
-    algo = ALGO_MAP[algo_str]
+        @hash = seed+passphrase
 
-    if algo == "sha1"
+        algo = ALGO_MAP[algo_str]
+
         (seq_num+1).times do
-            regs = algo.digest(@hash).unpack("V5")
-            regs[0] ^ regs[2]
-            regs[1] ^ regs[3]
-            regs[0] ^ regs[4]
+            regs = algo.digest(@hash).unpack("V*")
+            times_to_fold = regs.size - 2
+            0.upto(times_to_fold - 1) do |i|
+                regs[i%2] ^= regs[i+2]
+            end
             @hash = [regs[0], regs[1]].pack("V2")
         end
-  else
-    (seq_num+1).times do
-      regs = algo.digest(@hash).unpack("V4")
-      ac = regs[0] ^ regs[2]
-      bd = regs[1] ^ regs[3]
-      @hash = [ac, bd].pack("V2")
-    end
-  end
-  end
-
-  # return integer for this OTP
-  def to_i
-    (0...8).inject(0) do |sum, i|
-      sum <<= 8
-      sum |= (@hash[i] & 0xff)
-    end
-  end
-
-  # return words sentence for this OTP
-  def to_s
-    parity = 0
-    wi = tmplong = to_i
-    sentence = ""
-
-    32.times do |i|
-      parity += tmplong & 3
-      tmplong >>= 2
     end
 
-    4.downto(0) do |i|
-      sentence << WORDS[ ((wi >> (i * 11 + 9)) & 0x7ff)] + " "
+    # return integer for this OTP
+    def to_i
+        (0...8).inject(0) do |sum, i|
+            sum <<= 8
+            sum |= (@hash[i] & 0xff)
+        end
     end
 
-    sentence << WORDS[ ((wi << 2) & 0x7fc) | (parity & 3) ]
-    sentence
-  end
+    # return words sentence for this OTP
+    def to_s
+        parity = 0
+        wi = tmplong = to_i
+        sentence = ""
+
+        32.times do |i|
+            parity += tmplong & 3
+            tmplong >>= 2
+        end
+
+        4.downto(0) do |i|
+            sentence << WORDS[ ((wi >> (i * 11 + 9)) & 0x7ff)] + " "
+        end
+
+        sentence << WORDS[ ((wi << 2) & 0x7fc) | (parity & 3) ]
+        sentence
+    end
+
+    def to_hex
+        to_i.to_s(16).upcase
+    end
+
 end
