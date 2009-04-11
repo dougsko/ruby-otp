@@ -1,5 +1,4 @@
-require "digest/md5"
-require "digest/sha1"
+require 'digest'
 require "openssl"
 
 class OTP
@@ -140,7 +139,8 @@ class OTP
   # +passphrase+ must only contains pure ascii characters (7 bits).
   # +seed+ should only contains alpha-numeric characters.
   # +seed+ must not contain spaces
-  # +algo_str+ can be "md4" or "md5" (default).
+  # +algo_str+ can be "md4", "md5" (default), "sha1", "sha256", "sha384",
+  # "sha512".
     def initialize(seq_num, seed, passphrase, algo_str = 'md5')
         raise ArgumentError, 'passphrase must be from 10 to 63 characters long' unless (10..63).include?(passphrase.size)
 
