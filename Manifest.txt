@@ -4,6 +4,10 @@
 |-- Rakefile
 |-- VERSION.yml
 |-- bin
+|   |-- ropieinfo
+|   |-- ropiekey
+|   |-- ropiepasswd
+|   `-- rotp-md5
 |-- lib
 |   `-- otp.rb
 `-- spec
@@ -11,4 +15,4 @@
     |-- ruby-otp_spec.rb
     `-- spec_helper.rb
 
-3 directories, 8 files
+3 directories, 12 files
