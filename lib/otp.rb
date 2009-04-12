@@ -121,26 +121,26 @@ class OTP
   WORM WORN WOVE WRIT WYNN YALE YANG YANK YARD YARN YAWL YAWN YEAH YEAR YELL YOGA
   YOKE}
 
-  ALGO_MAP = {  'md4' => OpenSSL::Digest::MD4,
-                'md5' => Digest::MD5, 
-                'sha1' => Digest::SHA1,
-                'sha256' => Digest::SHA2.new(bitlen = 256),
-                'sha384' => Digest::SHA2.new(bitlen = 384),
-                'sha512' => Digest::SHA2.new(bitlen = 512) }.freeze
+    ALGO_MAP = {  'md4' => OpenSSL::Digest::MD4,
+                  'md5' => Digest::MD5, 
+                  'sha1' => Digest::SHA1,
+                  'sha256' => Digest::SHA2.new(bitlen = 256),
+                  'sha384' => Digest::SHA2.new(bitlen = 384),
+                  'sha512' => Digest::SHA2.new(bitlen = 512) }.freeze
 
-  # generate a pseudo-random seed like "gh1234" or "zf4326"
-  def self.generate_seed
-    ( (0..1).collect { (rand(26) + 97).chr } +
-      (0..3).collect { (rand(10) + 48).chr }).join("")
-  end
+    # generate a pseudo-random seed like "gh1234" or "zf4326"
+    def self.generate_seed
+      ( (0..1).collect { (rand(26) + 97).chr } +
+        (0..3).collect { (rand(10) + 48).chr }).join("")
+    end
 
-  # create an OTP instance.
-  # +passphrase+ length must be >= 10 and <= 63.
-  # +passphrase+ must only contains pure ascii characters (7 bits).
-  # +seed+ should only contains alpha-numeric characters.
-  # +seed+ must not contain spaces
-  # +algo_str+ can be "md4", "md5" (default), "sha1", "sha256", "sha384",
-  # "sha512".
+    # create an OTP instance.
+    # +passphrase+ length must be >= 10 and <= 63.
+    # +passphrase+ must only contains pure ascii characters (7 bits).
+    # +seed+ should only contains alpha-numeric characters.
+    # +seed+ must not contain spaces
+    # +algo_str+ can be "md4", "md5" (default), "sha1", "sha256", "sha384",
+    # "sha512".
     def initialize(seq_num, seed, passphrase, algo_str = 'md5')
         raise ArgumentError, 'passphrase must be from 10 to 63 characters long' unless (10..63).include?(passphrase.size)
 
@@ -148,12 +148,12 @@ class OTP
             raise ArgumentError, 'passphrase contains non-ASCII characters' if b > 127
         end
 
-        if seed !~ /^\w+$/
-            raise ArgumentError, "seed contains non alpha-numeric characters"
-        end
-
         if seed =~ /^\s+$/
              raise ArgumentError, "seed must not contain spaces"
+        end
+
+        if seed !~ /^\w+$/
+            raise ArgumentError, "seed contains non alpha-numeric characters"
         end
 
         @hash = seed+passphrase
@@ -197,6 +197,7 @@ class OTP
         sentence
     end
 
+    # return response in hex form
     def to_hex
         to_i.to_s(16).upcase
     end
