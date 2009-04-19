@@ -1,0 +1,8 @@
+#!/usr/bin/env ruby
+#
+# A script to act like opiepasswd
+#
+
+require 'lib/otp'
+
+
