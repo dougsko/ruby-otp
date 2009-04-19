@@ -3,7 +3,7 @@
 # This is an all ruby clone of opiekey
 #
 
-require 'otp'
+require 'lib/otp'
 require 'optparse'
 
 options = {:algo => "md5", :num => 1}
@@ -60,6 +60,7 @@ opts = OptionParser.new do |opts|
     end
 end
 
+opts.parse(ARGV)
 if ARGV.size < 2 
     puts "Need at least two arguments"
     exit
@@ -71,21 +72,19 @@ elsif ARGV[ARGV.size - 1] !~ /^\w+$/
     exit
 end
 
-opts.parse(ARGV)
 options[:seq_num] = ARGV[ARGV.size - 2].to_i
 options[:seed] = ARGV[ARGV.size - 1]
 
 puts "Using the #{options[:algo]} algorithm to compute response."
 puts "Reminder: Don't use opiekey from telnet or dial-in sessions."
 puts "Enter secret pass phrase: "
+
+# This makes the terminal not echo the pass as you type it in.
+`stty -echo`
 options[:pass] = STDIN.gets.chomp
+`stty echo`
 
 (options[:num] - 1).downto(0) do |i|
     otp = OTP.new(options[:seq_num] - i, options[:seed], options[:pass], options[:algo])
     puts "#{options[:seq_num] - i}: #{otp.to_s}"
 end
-
-
-
-
-
