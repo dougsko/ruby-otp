@@ -4,28 +4,23 @@
 #        OPIE authentication system.
 #
 
-require 'lib/otp'
+require 'lib/ropie'
 require 'optparse'
 
-options = {:algo => "md5", :seq_num => 499}
+rand_seed = OTP.generate_seed
+options = {:algo => "md5", :seq_num => 499, :seed => rand_seed}
 opts = OptionParser.new do |opts|
     opts.banner =  "usage: opiepasswd [-v] [-h] [-c|-d] [-f]
-[-n initial_sequence_number ] [-s seed ] [  user_name ]"
+[-n initial_sequence_number ] [-s seed ] [ -u user_name ]"
     opts.separator ""
     opts.separator "Options:"
 
-    opts.on_tail("-h", "--help", "Show this message") do
-        puts opts
-        exit
+    opts.on("-c", "--console", "Set console  mode  where  the  user  is expected  to  have secure access to the system.") do |c|
+        options[:c] = c
     end
 
-    opts.on_tail("-v", "--version", "Show version") do
-        puts "ropiepasswd 0.0.1"
-        exit
-    end
-
-    opts.on("-c", "--console", "Set console  mode  where  the  user  is expected  to  have secure access to the system.") do
-        options[:c] = 1
+    opts.on("-u USER", "--user USER", String, "Username") do |u|
+        options[:user] = u
     end
 
     opts.on("-d", "--disable", "Disable  OTP  logins  to  the specified account.") do
@@ -33,7 +28,7 @@ opts = OptionParser.new do |opts|
     end
 
     opts.on("-f", "--force", "Force opiekey to continue, even where it normally  shouldn't.") do |f|
-        options[:force] = 1
+        options[:force] = f
     end
 
     opts.on("-4", "--md4", "Use MD4 hashing algorithm.") do
@@ -52,16 +47,22 @@ opts = OptionParser.new do |opts|
         options[:algo] = "sha512"
     end
 
-    opts.on("-n", "--number", String, "Manually  specify  the initial sequence number. The default is 499.") do |n|
+    opts.on("-n NUM", "--number NUM", Integer, "Manually  specify  the initial sequence number. The default is 499.") do |n|
         options[:seq_num] = n.to_i
     end
 
-    opts.on("-s", "--seed", String, "Specify a non-random seed.") do |s|
+    opts.on("-s SEED", "--seed SEED", String, "Specify a non-random seed.") do |s|
         options[:seed] = s
     end
 
-    opts.on("-u", "--username", String, "Username") do |u|
-        options[:username] = u
+    opts.on_tail("-h", "--help", "Show this message") do
+        puts opts
+        exit
+    end
+
+    opts.on_tail("-v", "--version", "Show version") do
+        puts "ropiepasswd 0.0.1"
+        exit
     end
 end
 
@@ -76,7 +77,17 @@ puts "Enter secret pass phrase: "
 options[:pass] = STDIN.gets.chomp
 `stty echo`
 
-(options[:num] - 1).downto(0) do |i|
-    otp = OTP.new(options[:seq_num] - i, options[:seed], options[:pass], options[:algo])
-    puts "#{options[:seq_num] - i}: #{otp.to_s}"
-end
+
+otp = OTP.new(options[:seq_num], options[:seed], options[:pass], options[:algo])
+
+entry = KeyEntry.new( 
+             :name => options[:user],
+             :seq_num => options[:seq_num], 
+             :seed => options[:seed],
+             :algo => options[:algo],
+             :key => otp.to_hex,
+             :date => Time.now
+            )
+entry.save
+
+

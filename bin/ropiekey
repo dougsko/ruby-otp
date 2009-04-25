@@ -3,7 +3,7 @@
 # This is an all ruby clone of opiekey
 #
 
-require 'lib/otp'
+require 'lib/ropie'
 require 'optparse'
 
 options = {:algo => "md5", :num => 1}
