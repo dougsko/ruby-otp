@@ -5,22 +5,35 @@
 #
 require 'rubygems'
 require 'datamapper'
+require 'dm-timestamps'
 
 DataMapper.setup(:default, {
     :adapter => "sqlite3", 
     :database => "data/ropiekeys",
 })
 
-class KeyEntry
+class User
     include DataMapper::Resource
 
     property :id, Serial
     property :name, String
+
+    has n, :keys
+end
+
+class Key
+    include DataMapper::Resource
+
+    property :id, Serial
     property :algo, String
     property :seq_num, Integer
     property :seed, String
     property :key, String
-    property :date, DateTime
+    property :created_at, DateTime
+    property :updated_at, DateTime
+
+
+    belongs_to :user
 end
 
 #DataMapper.auto_migrate!

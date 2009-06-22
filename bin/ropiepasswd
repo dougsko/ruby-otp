@@ -68,26 +68,51 @@ end
 
 opts.parse(ARGV)
 
-puts "Using the #{options[:algo]} algorithm to compute response."
-puts "Reminder: Don't use opiekey from telnet or dial-in sessions."
-puts "Enter secret pass phrase: "
+if ! (user = User.first(:name => options[:user])) or options[:c]
+    puts "Using the available algorithms to compute response."
+    puts "Reminder: Don't use opiekey from telnet or dial-in sessions."
+    puts "Enter secret pass phrase: "
 
-# This makes the terminal not echo the pass as you type it in.
-`stty -echo`
-options[:pass] = STDIN.gets.chomp
-`stty echo`
+    # This makes the terminal not echo the pass as you type it in.
+    `stty -echo`
+    options[:pass] = STDIN.gets.chomp
+    `stty echo`
 
+    otp = OTP.new(options[:seq_num], options[:seed], options[:pass], options[:algo])
 
-otp = OTP.new(options[:seq_num], options[:seed], options[:pass], options[:algo])
+    user = User.new(:name => options[:user])
+    user.save
+    
+    ["md4", "md5", "sha1", "sha512"].each do |digest|
+        otp = OTP.new(options[:seq_num], options[:seed], options[:pass], digest)
+        key = Key.new(
+                :algo => digest,
+                :seq_num => options[:seq_num],
+                :seed => options[:seed],
+                :key => otp.to_hex,
+                :user_id => user.id
+        )        
+        key.save
+    end
+else
+    user = User.first(:conditions => {:name => options[:user]})
+    key = user.keys.first(:algo => options[:algo])
 
-entry = KeyEntry.new( 
-             :name => options[:user],
-             :seq_num => options[:seq_num], 
-             :seed => options[:seed],
-             :algo => options[:algo],
-             :key => otp.to_hex,
-             :date => Time.now
-            )
-entry.save
+    puts "Updating " + user.name + ":"
+    puts "You need the response from an OTP generator."
+    puts "Old secret pass phrase:"
+    puts "    #{key.algo} #{key.seq_num - 1} #{key.seed} ext"
+    puts "    Response:"
 
+    response = STDIN.gets.chomp
+    
+    # it needs to take my response, run the hashing algo on it, and it and compare it to key.key
+    # somehow, need to translate a sentence back into a hash before it
+    # can be md5'd or whatever
+    if key.key == key.algo.digest(response.translated_to_hex)
+        # now, authenticated, the user can set a new password and
+        # generate a new key altogether
+    end
+end
+    
 
