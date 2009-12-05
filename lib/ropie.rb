@@ -1,2 +1,2 @@
-require 'lib/otp'
-require 'lib/database'
+require 'otp'
+require 'otp-database'

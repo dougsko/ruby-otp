@@ -65,7 +65,7 @@ if ARGV.size < 2
     puts "Need at least two arguments"
     exit
 elsif ARGV[ARGV.size - 2] !~ /^\d+$/ 
-    puts "Lasrt"
+    puts "Need a sequence number"
     exit
 elsif ARGV[ARGV.size - 1] !~ /^\w+$/
     puts "sequence number and seed must be the last two arguments specified. In that order."
