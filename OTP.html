@@ -1,0 +1,424 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+	"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+	<meta content="text/html; charset=utf-8" http-equiv="Content-Type" />
+
+	<title>Class: OTP</title>
+
+	<link rel="stylesheet" href="./rdoc.css" type="text/css" media="screen" />
+
+	<script src="./js/jquery.js" type="text/javascript"
+		charset="utf-8"></script>
+	<script src="./js/thickbox-compressed.js" type="text/javascript"
+		charset="utf-8"></script>
+	<script src="./js/quicksearch.js" type="text/javascript"
+		charset="utf-8"></script>
+	<script src="./js/darkfish.js" type="text/javascript"
+		charset="utf-8"></script>
+
+</head>
+<body class="class">
+
+	<div id="metadata">
+		<div id="file-metadata">
+			<div id="file-list-section" class="section">
+				<h3 class="section-header">In Files</h3>
+				<div class="section-body">
+					<ul>
+					
+						<li><a href="./lib/otp_rb.html?TB_iframe=true&amp;height=550&amp;width=785"
+							class="thickbox" title="lib/otp.rb">lib/otp.rb</a></li>
+					
+					</ul>
+				</div>
+			</div>
+
+			
+		</div>
+
+		<div id="class-metadata">
+
+			<!-- Parent Class -->
+			
+			<div id="parent-class-section" class="section">
+				<h3 class="section-header">Parent</h3>
+				
+				<p class="link">Object</p>
+				
+			</div>
+			
+
+			<!-- Namespace Contents -->
+			
+
+			<!-- Method Quickref -->
+			
+			<div id="method-list-section" class="section">
+				<h3 class="section-header">Methods</h3>
+				<ul class="link-list">
+					
+					<li><a href="#M000000">::generate_seed</a></li>
+					
+					<li><a href="#M000001">::new</a></li>
+					
+					<li><a href="#M000004">#to_hex</a></li>
+					
+					<li><a href="#M000002">#to_i</a></li>
+					
+					<li><a href="#M000003">#to_s</a></li>
+					
+				</ul>
+			</div>
+			
+
+			<!-- Included Modules -->
+			
+		</div>
+
+		<div id="project-metadata">
+			
+			
+			<div id="fileindex-section" class="section project-section">
+				<h3 class="section-header">Files</h3>
+				<ul>
+				
+					<li class="file"><a href="./README.html">README</a></li>
+				
+				</ul>
+			</div>
+			
+
+			<div id="classindex-section" class="section project-section">
+				<h3 class="section-header">Class Index
+					<span class="search-toggle"><img src="./images/find.png"
+						height="16" width="16" alt="[+]"
+						title="show/hide quicksearch" /></span></h3>
+				<form action="#" method="get" accept-charset="utf-8" class="initially-hidden">
+				<fieldset>
+					<legend>Quicksearch</legend>
+					<input type="text" name="quicksearch" value=""
+						class="quicksearch-field" />
+				</fieldset>
+				</form>
+
+				<ul class="link-list">
+				
+					<li><a href="./Key.html">Key</a></li>
+				
+					<li><a href="./OTP.html">OTP</a></li>
+				
+					<li><a href="./User.html">User</a></li>
+				
+				</ul>
+				<div id="no-class-search-results" style="display: none;">No matching classes.</div>
+			</div>
+
+			
+		</div>
+	</div>
+
+	<div id="documentation">
+		<h1 class="class">OTP</h1>
+
+		<div id="description">
+			
+		</div>
+
+		<!-- Constants -->
+		
+		<div id="constants-list" class="section">
+			<h3 class="section-header">Constants</h3>
+			<dl>
+			
+				<dt><a name="WORDS">WORDS</a></dt>
+				
+				<dd class="description missing-docs">(Not documented)</dd>
+				
+			
+				<dt><a name="ALGO_MAP">ALGO_MAP</a></dt>
+				
+				<dd class="description missing-docs">(Not documented)</dd>
+				
+			
+			</dl>
+		</div>
+		
+
+		<!-- Attributes -->
+		
+		<div id="attribute-method-details" class="method-section section">
+			<h3 class="section-header">Attributes</h3>
+
+			
+			<div id="hash-attribute-method" class="method-detail">
+				<a name="hash"></a>
+				
+				<div class="method-heading attribute-method-heading">
+					<span class="method-name">hash</span><span
+						class="attribute-access-type">[R]</span>
+				</div>
+
+				<div class="method-description">
+				
+				<p class="missing-docs">(Not documented)</p>
+				
+				</div>
+			</div>
+			
+		</div>
+		
+
+		<!-- Methods -->
+		
+		<div id="public-class-method-details" class="method-section section">
+			<h3 class="section-header">Public Class Methods</h3>
+
+		
+			<div id="generate-seed-method" class="method-detail ">
+				<a name="M000000"></a>
+
+				<div class="method-heading">
+				
+					<span class="method-name">generate_seed</span><span
+						class="method-args">()</span>
+					<span class="method-click-advice">click to toggle source</span>
+				
+				</div>
+
+				<div class="method-description">
+					
+					<p>
+generate a pseudo-random seed like &#8220;gh1234&#8221; or
+&#8220;zf4326&#8220;
+</p>
+					
+
+					
+					<div class="method-source-code"
+						id="generate-seed-source">
+<pre>
+     <span class="ruby-comment cmt"># File lib/otp.rb, line 133</span>
+133:     <span class="ruby-keyword kw">def</span> <span class="ruby-keyword kw">self</span>.<span class="ruby-identifier">generate_seed</span>
+134:       ( (<span class="ruby-value">0</span><span class="ruby-operator">..</span><span class="ruby-value">1</span>).<span class="ruby-identifier">collect</span> { (<span class="ruby-identifier">rand</span>(<span class="ruby-value">26</span>) <span class="ruby-operator">+</span> <span class="ruby-value">97</span>).<span class="ruby-identifier">chr</span> } <span class="ruby-operator">+</span>
+135:         (<span class="ruby-value">0</span><span class="ruby-operator">..</span><span class="ruby-value">3</span>).<span class="ruby-identifier">collect</span> { (<span class="ruby-identifier">rand</span>(<span class="ruby-value">10</span>) <span class="ruby-operator">+</span> <span class="ruby-value">48</span>).<span class="ruby-identifier">chr</span> }).<span class="ruby-identifier">join</span>(<span class="ruby-value str">&quot;&quot;</span>)
+136:     <span class="ruby-keyword kw">end</span></pre>
+					</div>
+					
+				</div>
+
+				
+			</div>
+
+		
+			<div id="new-method" class="method-detail ">
+				<a name="M000001"></a>
+
+				<div class="method-heading">
+				
+					<span class="method-name">new</span><span
+						class="method-args">(seq_num, seed, passphrase, algo_str = 'md5')</span>
+					<span class="method-click-advice">click to toggle source</span>
+				
+				</div>
+
+				<div class="method-description">
+					
+					<p>
+create an <a href="OTP.html">OTP</a> instance. <tt>passphrase</tt> length
+must be >= 10 and <= 63. <tt>passphrase</tt> must only contains pure ascii
+characters (7 bits). <tt>seed</tt> should only contains alpha-numeric
+characters. <tt>seed</tt> must not contain spaces <tt>algo_str</tt> can be
+&#8220;md4&#8221;, &#8220;md5&#8221; (default), &#8220;sha1&#8221;,
+&#8220;sha256&#8221;, &#8220;sha384&#8221;, &#8220;sha512&#8221;.
+</p>
+					
+
+					
+					<div class="method-source-code"
+						id="new-source">
+<pre>
+     <span class="ruby-comment cmt"># File lib/otp.rb, line 145</span>
+145:     <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">initialize</span>(<span class="ruby-identifier">seq_num</span>, <span class="ruby-identifier">seed</span>, <span class="ruby-identifier">passphrase</span>, <span class="ruby-identifier">algo_str</span> = <span class="ruby-value str">'md5'</span>)
+146:         <span class="ruby-identifier">raise</span> <span class="ruby-constant">ArgumentError</span>, <span class="ruby-value str">'passphrase must be from 10 to 63 characters long'</span> <span class="ruby-keyword kw">unless</span> (<span class="ruby-value">10</span><span class="ruby-operator">..</span><span class="ruby-value">63</span>).<span class="ruby-identifier">include?</span>(<span class="ruby-identifier">passphrase</span>.<span class="ruby-identifier">size</span>)
+147: 
+148:         <span class="ruby-identifier">passphrase</span>.<span class="ruby-identifier">each_byte</span> <span class="ruby-keyword kw">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">b</span><span class="ruby-operator">|</span>
+149:             <span class="ruby-identifier">raise</span> <span class="ruby-constant">ArgumentError</span>, <span class="ruby-value str">'passphrase contains non-ASCII characters'</span> <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">b</span> <span class="ruby-operator">&gt;</span> <span class="ruby-value">127</span>
+150:         <span class="ruby-keyword kw">end</span>
+151: 
+152:         <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">seed</span> <span class="ruby-operator">=~</span> <span class="ruby-regexp re">/\s+/</span>
+153:              <span class="ruby-identifier">raise</span> <span class="ruby-constant">ArgumentError</span>, <span class="ruby-value str">&quot;seed must not contain spaces&quot;</span>
+154:         <span class="ruby-keyword kw">end</span>
+155: 
+156:         <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">seed</span> <span class="ruby-operator">!~</span> <span class="ruby-regexp re">/^\w+$/</span>
+157:             <span class="ruby-identifier">raise</span> <span class="ruby-constant">ArgumentError</span>, <span class="ruby-value str">&quot;seed contains non alpha-numeric characters&quot;</span>
+158:         <span class="ruby-keyword kw">end</span>
+159: 
+160:         <span class="ruby-ivar">@hash</span> = <span class="ruby-identifier">seed</span><span class="ruby-operator">+</span><span class="ruby-identifier">passphrase</span>
+161: 
+162:         <span class="ruby-identifier">algo</span> = <span class="ruby-constant">ALGO_MAP</span>[<span class="ruby-identifier">algo_str</span>]
+163: 
+164:         (<span class="ruby-identifier">seq_num</span><span class="ruby-operator">+</span><span class="ruby-value">1</span>).<span class="ruby-identifier">times</span> <span class="ruby-keyword kw">do</span>
+165:             <span class="ruby-identifier">regs</span> = <span class="ruby-identifier">algo</span>.<span class="ruby-identifier">digest</span>(<span class="ruby-ivar">@hash</span>).<span class="ruby-identifier">unpack</span>(<span class="ruby-value str">&quot;V*&quot;</span>)
+166:             <span class="ruby-identifier">times_to_fold</span> = <span class="ruby-identifier">regs</span>.<span class="ruby-identifier">size</span> <span class="ruby-operator">-</span> <span class="ruby-value">2</span>
+167:             <span class="ruby-value">0</span>.<span class="ruby-identifier">upto</span>(<span class="ruby-identifier">times_to_fold</span> <span class="ruby-operator">-</span> <span class="ruby-value">1</span>) <span class="ruby-keyword kw">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">i</span><span class="ruby-operator">|</span>
+168:                 <span class="ruby-identifier">regs</span>[<span class="ruby-identifier">i</span><span class="ruby-operator">%</span><span class="ruby-value">2</span>] <span class="ruby-operator">^=</span> <span class="ruby-identifier">regs</span>[<span class="ruby-identifier">i</span><span class="ruby-operator">+</span><span class="ruby-value">2</span>]
+169:             <span class="ruby-keyword kw">end</span>
+170:             <span class="ruby-ivar">@hash</span> = [<span class="ruby-identifier">regs</span>[<span class="ruby-value">0</span>], <span class="ruby-identifier">regs</span>[<span class="ruby-value">1</span>]].<span class="ruby-identifier">pack</span>(<span class="ruby-value str">&quot;V2&quot;</span>)
+171:         <span class="ruby-keyword kw">end</span>
+172:     <span class="ruby-keyword kw">end</span></pre>
+					</div>
+					
+				</div>
+
+				
+			</div>
+
+		
+		</div>
+	
+		<div id="public-instance-method-details" class="method-section section">
+			<h3 class="section-header">Public Instance Methods</h3>
+
+		
+			<div id="to-hex-method" class="method-detail ">
+				<a name="M000004"></a>
+
+				<div class="method-heading">
+				
+					<span class="method-name">to_hex</span><span
+						class="method-args">()</span>
+					<span class="method-click-advice">click to toggle source</span>
+				
+				</div>
+
+				<div class="method-description">
+					
+					<p>
+return response in hex form
+</p>
+					
+
+					
+					<div class="method-source-code"
+						id="to-hex-source">
+<pre>
+     <span class="ruby-comment cmt"># File lib/otp.rb, line 202</span>
+202:     <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">to_hex</span>
+203:         <span class="ruby-identifier">to_i</span>.<span class="ruby-identifier">to_s</span>(<span class="ruby-value">16</span>).<span class="ruby-identifier">upcase</span>
+204:     <span class="ruby-keyword kw">end</span></pre>
+					</div>
+					
+				</div>
+
+				
+			</div>
+
+		
+			<div id="to-i-method" class="method-detail ">
+				<a name="M000002"></a>
+
+				<div class="method-heading">
+				
+					<span class="method-name">to_i</span><span
+						class="method-args">()</span>
+					<span class="method-click-advice">click to toggle source</span>
+				
+				</div>
+
+				<div class="method-description">
+					
+					<p>
+return integer for this <a href="OTP.html">OTP</a>
+</p>
+					
+
+					
+					<div class="method-source-code"
+						id="to-i-source">
+<pre>
+     <span class="ruby-comment cmt"># File lib/otp.rb, line 175</span>
+175:     <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">to_i</span>
+176:         (<span class="ruby-value">0</span><span class="ruby-operator">...</span><span class="ruby-value">8</span>).<span class="ruby-identifier">inject</span>(<span class="ruby-value">0</span>) <span class="ruby-keyword kw">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">sum</span>, <span class="ruby-identifier">i</span><span class="ruby-operator">|</span>
+177:             <span class="ruby-identifier">sum</span> <span class="ruby-operator">&lt;&lt;=</span> <span class="ruby-value">8</span>
+178:             <span class="ruby-identifier">sum</span> <span class="ruby-operator">|=</span> (<span class="ruby-ivar">@hash</span>[<span class="ruby-identifier">i</span>] <span class="ruby-operator">&amp;</span> <span class="ruby-value">0xff</span>)
+179:         <span class="ruby-keyword kw">end</span>
+180:     <span class="ruby-keyword kw">end</span></pre>
+					</div>
+					
+				</div>
+
+				
+			</div>
+
+		
+			<div id="to-s-method" class="method-detail ">
+				<a name="M000003"></a>
+
+				<div class="method-heading">
+				
+					<span class="method-name">to_s</span><span
+						class="method-args">()</span>
+					<span class="method-click-advice">click to toggle source</span>
+				
+				</div>
+
+				<div class="method-description">
+					
+					<p>
+return words sentence for this <a href="OTP.html">OTP</a>
+</p>
+					
+
+					
+					<div class="method-source-code"
+						id="to-s-source">
+<pre>
+     <span class="ruby-comment cmt"># File lib/otp.rb, line 183</span>
+183:     <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">to_s</span>
+184:         <span class="ruby-identifier">parity</span> = <span class="ruby-value">0</span>
+185:         <span class="ruby-identifier">wi</span> = <span class="ruby-identifier">tmplong</span> = <span class="ruby-identifier">to_i</span>
+186:         <span class="ruby-identifier">sentence</span> = <span class="ruby-value str">&quot;&quot;</span>
+187: 
+188:         <span class="ruby-value">32</span>.<span class="ruby-identifier">times</span> <span class="ruby-keyword kw">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">i</span><span class="ruby-operator">|</span>
+189:             <span class="ruby-identifier">parity</span> <span class="ruby-operator">+=</span> <span class="ruby-identifier">tmplong</span> <span class="ruby-operator">&amp;</span> <span class="ruby-value">3</span>
+190:             <span class="ruby-identifier">tmplong</span> <span class="ruby-operator">&gt;&gt;=</span> <span class="ruby-value">2</span>
+191:         <span class="ruby-keyword kw">end</span>
+192: 
+193:         <span class="ruby-value">4</span>.<span class="ruby-identifier">downto</span>(<span class="ruby-value">0</span>) <span class="ruby-keyword kw">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">i</span><span class="ruby-operator">|</span>
+194:             <span class="ruby-identifier">sentence</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-constant">WORDS</span>[ ((<span class="ruby-identifier">wi</span> <span class="ruby-operator">&gt;&gt;</span> (<span class="ruby-identifier">i</span> <span class="ruby-operator">*</span> <span class="ruby-value">11</span> <span class="ruby-operator">+</span> <span class="ruby-value">9</span>)) <span class="ruby-operator">&amp;</span> <span class="ruby-value">0x7ff</span>)] <span class="ruby-operator">+</span> <span class="ruby-value str">&quot; &quot;</span>
+195:         <span class="ruby-keyword kw">end</span>
+196: 
+197:         <span class="ruby-identifier">sentence</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-constant">WORDS</span>[ ((<span class="ruby-identifier">wi</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-value">2</span>) <span class="ruby-operator">&amp;</span> <span class="ruby-value">0x7fc</span>) <span class="ruby-operator">|</span> (<span class="ruby-identifier">parity</span> <span class="ruby-operator">&amp;</span> <span class="ruby-value">3</span>) ]
+198:         <span class="ruby-identifier">sentence</span>
+199:     <span class="ruby-keyword kw">end</span></pre>
+					</div>
+					
+				</div>
+
+				
+			</div>
+
+		
+		</div>
+	
+
+	</div>
+
+
+	<div id="rdoc-debugging-section-dump" class="debugging-section">
+	
+		<p>Disabled; run with --debug to generate this.</p>
+	
+	</div>
+
+	<div id="validator-badges">
+		<p><small><a href="http://validator.w3.org/check/referer">[Validate]</a></small></p>
+		<p><small>Generated with the <a href="http://deveiate.org/projects/Darkfish-Rdoc/">Darkfish
+			Rdoc Generator</a> 1.1.6</small>.</p>
+	</div>
+
+</body>
+</html>
+

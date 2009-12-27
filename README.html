@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+	"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+	<meta content="text/html; charset=utf-8" http-equiv="Content-Type" />
+
+	<title>File: README [ruby-otp]</title>
+
+	<link type="text/css" media="screen" href="./rdoc.css" rel="stylesheet" />
+
+	<script src="./js/jquery.js" type="text/javascript"
+		charset="utf-8"></script>
+	<script src="./js/thickbox-compressed.js" type="text/javascript"
+		charset="utf-8"></script>
+	<script src="./js/quicksearch.js" type="text/javascript"
+		charset="utf-8"></script>
+	<script src="./js/darkfish.js" type="text/javascript"
+		charset="utf-8"></script>
+</head>
+
+<body class="file">
+	<div id="metadata">
+		<div id="project-metadata">
+			
+			
+			<div id="fileindex-section" class="section project-section">
+				<h3 class="section-header">Files</h3>
+				<ul>
+				
+					<li class="file"><a href="./README.html">README</a></li>
+				
+				</ul>
+			</div>
+			
+
+			<div id="classindex-section" class="section project-section">
+				<h3 class="section-header">Class Index
+					<span class="search-toggle"><img src="./images/find.png"
+						height="16" width="16" alt="[+]"
+						title="show/hide quicksearch" /></span></h3>
+				<form action="#" method="get" accept-charset="utf-8" class="initially-hidden">
+				<fieldset>
+					<legend>Quicksearch</legend>
+					<input type="text" name="quicksearch" value=""
+						class="quicksearch-field" />
+				</fieldset>
+				</form>
+
+				<ul class="link-list">
+				
+					<li><a href="./Key.html">Key</a></li>
+				
+					<li><a href="./OTP.html">OTP</a></li>
+				
+					<li><a href="./User.html">User</a></li>
+				
+				</ul>
+				<div id="no-class-search-results" style="display: none;">No matching classes.</div>
+			</div>
+
+			
+		</div>
+	</div>
+
+	<div id="documentation">
+		<h1>ruby-otp</h1>
+<p>
+by dougsko
+</p>
+<ul>
+<li><a
+href="http://github.com/dougsko/ruby-otp">github.com/dougsko/ruby-otp</a>
+
+</li>
+</ul>
+<p>
+original program by Guillaume Pierronnet
+</p>
+<ul>
+<li><a href="http://ruby-otp.rubyforge.org">ruby-otp.rubyforge.org</a>
+
+</li>
+<li><a
+href="http://rubyforge.org/projects/ruby-otp">rubyforge.org/projects/ruby-otp</a>/
+
+</li>
+</ul>
+<h2>DESCRIPTION:</h2>
+<p>
+ruby-otp is a One Time Password library, compatible with OPIE and S/KEY,
+and RFC 1760 compliant. This fork supports SHA1 and several SHA2 hashing
+algorithms.
+</p>
+<h2>FEATURES/PROBLEMS:</h2>
+<ul>
+<li>pure ruby
+
+</li>
+<li>RFC 1760 compliant
+
+</li>
+<li>OPIE and S/KEY compatible
+
+</li>
+<li>Mostly RFC 2289 compliant
+
+</li>
+</ul>
+<h2>SYNOPSIS:</h2>
+<pre>
+  seq_num = 497
+  seed = &quot;aa3423&quot;
+  otp = OTP.new(seq_num, seed, &quot;my really private password&quot;, &quot;md5&quot;)
+  expected_sentence = otp.to_s.downcase
+
+  puts &quot;please enter the sentence from your OTP calculator seq_num: #{seq_num}, seed: #{seed}&quot;
+  sentence = gets.chop
+
+  if expected_sentence == sentence.downcase
+    puts &quot;access granted&quot;
+  else
+    puts &quot;you're not authorized&quot;
+  end
+</pre>
+<h2>REQUIREMENTS:</h2>
+<ul>
+<li>openssl for OpenSSL::Digest::MD4
+
+</li>
+</ul>
+<h2>INSTALL:</h2>
+<ul>
+<li>sudo gem install ruby-otp
+
+</li>
+</ul>
+<h2>LICENSE:</h2>
+<p>
+GPL
+</p>
+
+	</div>
+
+	<div id="validator-badges">
+		<p><small><a href="http://validator.w3.org/check/referer">[Validate]</a></small></p>
+		<p><small>Generated with the <a href="http://deveiate.org/projects/Darkfish-Rdoc/">Darkfish
+			Rdoc Generator</a> 1.1.6</small>.</p>
+	</div>
+</body>
+</html>
+
