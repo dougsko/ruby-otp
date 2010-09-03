@@ -198,6 +198,26 @@ class OTP
         sentence
     end
 
+    # translate sentence to hex for comparison
+    def sentence_to_hex(sentence)
+        big_bin = ""
+        word_in_bin = ""
+        sentence = sentence.split(" ")
+        sentence.each do |word|
+            word_in_bin = OTP::WORDS.index(word).to_s(2)
+            if word_in_bin.size < 11
+                temp = word_in_bin.reverse
+                size = temp.size
+                (11 - size).times do
+                    temp << "0"
+                end
+                word_in_bin = temp.reverse
+            end
+        big_bin << word_in_bin
+        end
+        big_bin[0..63].to_i(2).to_s(16).upcase
+    end
+
     # return response in hex form
     def to_hex
         to_i.to_s(16).upcase

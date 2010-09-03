@@ -3,6 +3,7 @@
 #
 
 require 'yaml'
+require 'rubygems'
 
 begin
     require 'jeweler'
