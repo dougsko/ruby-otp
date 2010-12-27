@@ -153,8 +153,12 @@ class OTP
              raise ArgumentError, "seed must not contain spaces"
         end
 
-        if seed !~ /^\w+$/
+        if seed.match(/[\W|_]/)
             raise ArgumentError, "seed contains non alpha-numeric characters"
+        end
+
+        if seed.length > 16
+            raise ArgumentError, "seed must between 1 and 16 characters in length"
         end
 
         @hash = seed+passphrase

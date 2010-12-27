@@ -33,4 +33,31 @@ describe "OTP" do
             OTP.generate_seed.should =~ /^[a-z]{2}\d{4}$/
         end
     end
+
+    # Tests from RFC 2289
+    it "Tests password too short" do
+        expect{OTP.new(99, "iamvalid", "Too_short", "md5")}.to raise_error(ArgumentError)
+    end
+
+    it "Tests password too long" do
+        expect{ OTP.new(99, "iamvalid", "1234567890123456789012345678901234567890123456789012345678901234", "md5")}.to raise_error(ArgumentError)
+    end
+
+    it "Tests seed is alphanumeric" do
+        expect{ OTP.new(99, "Length_0kay", "A_Valid_Passphrase", "md5")}.to raise_error(ArgumentError)
+    end
+
+    it "Tests seed length" do
+        expect{OTP.new(99, "LengthOfSeventeen", "A_Valid_Passphrase", "md5")}.to raise_error(ArgumentError)
+    end
+
+    it "Tests that the seed have no spaces" do
+        expect{OTP.new(99, "A Seed", "A_Valid_Passphrase", "md5")}.to raise_error(ArgumentError)
+    end
+
+    it "Tests parity" do
+        otp = OTP.new(99, "AValidSeed", "A_Valid_Passphrase", "md5")
+        otp.to_s.should == "FOWL KID MASH DEAD DUAL OAF"
+    end
+
 end
