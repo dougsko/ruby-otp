@@ -1,0 +1,118 @@
+#!/usr/bin/env ruby
+#
+# ropiepasswd -  Change or set a user's password for the
+#        OPIE authentication system.
+#
+
+require 'lib/ropie'
+require 'optparse'
+
+rand_seed = OTP.generate_seed
+options = {:algo => "md5", :seq_num => 499, :seed => rand_seed}
+opts = OptionParser.new do |opts|
+    opts.banner =  "usage: opiepasswd [-v] [-h] [-c|-d] [-f]
+[-n initial_sequence_number ] [-s seed ] [ -u user_name ]"
+    opts.separator ""
+    opts.separator "Options:"
+
+    opts.on("-c", "--console", "Set console  mode  where  the  user  is expected  to  have secure access to the system.") do |c|
+        options[:c] = c
+    end
+
+    opts.on("-u USER", "--user USER", String, "Username") do |u|
+        options[:user] = u
+    end
+
+    opts.on("-d", "--disable", "Disable  OTP  logins  to  the specified account.") do
+            options[:disable] = 1
+    end
+
+    opts.on("-f", "--force", "Force opiekey to continue, even where it normally  shouldn't.") do |f|
+        options[:force] = f
+    end
+
+    opts.on("-4", "--md4", "Use MD4 hashing algorithm.") do
+        options[:algo] = "md4"
+    end
+
+    opts.on("-5", "--md5", "Use MD5 hashing algorithm (default).") do 
+        options[:algo] = "md5"
+    end
+
+    opts.on("--sha1", "Use SHA1 hashing algorithm.") do
+        options[:algo] = "sha1"
+    end
+
+    opts.on("-512", "--sha512", "Use SHA512 hashing algorithm.") do
+        options[:algo] = "sha512"
+    end
+
+    opts.on("-n NUM", "--number NUM", Integer, "Manually  specify  the initial sequence number. The default is 499.") do |n|
+        options[:seq_num] = n.to_i
+    end
+
+    opts.on("-s SEED", "--seed SEED", String, "Specify a non-random seed.") do |s|
+        options[:seed] = s
+    end
+
+    opts.on_tail("-h", "--help", "Show this message") do
+        puts opts
+        exit
+    end
+
+    opts.on_tail("-v", "--version", "Show version") do
+        puts "ropiepasswd 0.0.1"
+        exit
+    end
+end
+
+opts.parse(ARGV)
+
+if ! (user = User.first(:name => options[:user])) or options[:c]
+    puts "Using the available algorithms to compute response."
+    puts "Reminder: Don't use opiekey from telnet or dial-in sessions."
+    puts "Enter secret pass phrase: "
+
+    # This makes the terminal not echo the pass as you type it in.
+    `stty -echo`
+    options[:pass] = STDIN.gets.chomp
+    `stty echo`
+
+    otp = OTP.new(options[:seq_num], options[:seed], options[:pass], options[:algo])
+
+    user = User.new(:name => options[:user])
+    user.save
+    
+    ["md4", "md5", "sha1", "sha512"].each do |digest|
+        otp = OTP.new(options[:seq_num], options[:seed], options[:pass], digest)
+        key = Key.new(
+                :algo => digest,
+                :seq_num => options[:seq_num],
+                :seed => options[:seed],
+                :key => otp.to_hex,
+                :user_id => user.id
+        )        
+        key.save
+    end
+else
+    user = User.first(:conditions => {:name => options[:user]})
+    key = user.keys.first(:algo => options[:algo])
+
+    puts "Updating " + user.name + ":"
+    puts "You need the response from an OTP generator."
+    puts "Old secret pass phrase:"
+    puts "    #{key.algo} #{key.seq_num - 1} #{key.seed} ext"
+    puts "    Response:"
+
+    response = STDIN.gets.chomp
+    
+    # it needs to take my response, run the hashing algo on it, and it and compare it to key.key
+    # somehow, need to translate a sentence back into a hash before it
+    # can be md5'd or whatever
+    if key.key == key.algo.digest(response.translated_to_hex)
+        # now, authenticated, the user can set a new password and
+        # generate a new key altogether
+    end
+end
+    
+

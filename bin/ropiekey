@@ -1,0 +1,90 @@
+#!/usr/bin/env ruby
+#
+# This is an all ruby clone of opiekey
+#
+
+require 'lib/otp'
+require 'optparse'
+
+options = {:algo => "md5", :num => 1}
+opts = OptionParser.new do |opts|
+    opts.banner =  "usage: opiekey [-v] [-h] [-f] [-x] [-t type] [-4 |
+-5 | -s] [-a] [-n count] <sequence_number> <seed>"
+    opts.separator ""
+    opts.separator "Options:"
+
+    opts.on_tail("-h", "--help", "Show this message") do
+        puts opts
+        exit
+    end
+
+    opts.on_tail("-v", "--version", "Show version") do
+        puts "ropiekey 0.0.1"
+        exit
+    end
+
+    opts.on("-f", "--force", "Force opiekey to continue, even where it normally  shouldn't.") do |f|
+        options[:force] = 1
+    end
+
+    opts.on("-x", "--hex", "Output the OTPs as hexadecimal numbers.") do
+        options[:hex] = 1
+    end
+
+    opts.on("-t", "--type", String, "Generate an extended response of the specified type.") do |t|
+        options[:type] = t
+    end
+
+    opts.on("-4", "--md4", "Use MD4 hashing algorithm.") do
+        options[:algo] = "md4"
+    end
+
+    opts.on("-5", "--md5", "Use MD5 hashing algorithm (default).") do 
+        options[:algo] = "md5"
+    end
+
+    opts.on("--sha1", "Use SHA1 hashing algorithm.") do
+        options[:algo] = "sha1"
+    end
+
+    opts.on("-512", "--sha512", "Use SHA512 hashing algorithm.") do
+        options[:algo] = "sha512"
+    end
+
+    opts.on("-a", "--arbitrary", "Allows arbitrary pass phrases.") do
+        options[:arbitrary] = 1
+    end
+
+    opts.on("-n <count>", "--number <count>", String, "Number of passwords to print.") do |n|
+        options[:num] = n.to_i
+    end
+end
+
+opts.parse(ARGV)
+if ARGV.size < 2 
+    puts "Need at least two arguments"
+    exit
+elsif ARGV[ARGV.size - 2] !~ /^\d+$/ 
+    puts "Need a sequence number"
+    exit
+elsif ARGV[ARGV.size - 1] !~ /^\w+$/
+    puts "sequence number and seed must be the last two arguments specified. In that order."
+    exit
+end
+
+options[:seq_num] = ARGV[ARGV.size - 2].to_i
+options[:seed] = ARGV[ARGV.size - 1]
+
+puts "Using the #{options[:algo]} algorithm to compute response."
+puts "Reminder: Don't use opiekey from telnet or dial-in sessions."
+puts "Enter secret pass phrase: "
+
+# This makes the terminal not echo the pass as you type it in.
+`stty -echo`
+options[:pass] = STDIN.gets.chomp
+`stty echo`
+
+(options[:num] - 1).downto(0) do |i|
+    otp = OTP.new(options[:seq_num] - i, options[:seed], options[:pass], options[:algo])
+    puts "#{options[:seq_num] - i}: #{otp.to_s}"
+end

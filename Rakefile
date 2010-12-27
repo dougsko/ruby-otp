@@ -15,8 +15,8 @@ Jeweler::Tasks.new do |gem|
   gem.name = "ruby-otp"
   gem.homepage = "http://github.com/dougsko/ruby-otp"
   gem.license = "MIT"
-  gem.summary = %Q{TODO: one-line summary of your gem}
-  gem.description = %Q{TODO: longer description of your gem}
+  gem.summary = %Q{Fork of the ruby-otp project at http://rubyforge.org/projects/ruby-otp.  This version provides support for more secure hashing algorithms.}
+  gem.description = %Q{Fork of the ruby-otp project at http://rubyforge.org/projects/ruby-otp.  This version provides support for more secure hashing algorithms.}
   gem.email = "dougtko@gmail.com"
   gem.authors = ["dougsko"]
   # Include your dependencies below. Runtime dependencies are required when using your gem,
