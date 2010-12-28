@@ -153,6 +153,7 @@ class OTP
              raise ArgumentError, "seed must not contain spaces"
         end
 
+<<<<<<< HEAD
         if seed.match(/[\W|_]/)
             raise ArgumentError, "seed contains non alpha-numeric characters"
         end
