@@ -1,31 +1,35 @@
 require "otp"
-require "yaml"
 require "spec_helper"
 
 describe "OTP" do
-    before do
-        @fixtures = YAML::load_file(File.dirname(__FILE__)+"/fixtures.yml")
-    end
-    
-    def testit(algo)
-        fixture = @fixtures[algo]
-        fixture.each do |expected_otp|
-            otp = OTP.new(expected_otp["seq_num"], expected_otp["seed"], expected_otp["passphrase"], algo)
-            yield otp, expected_otp["sentence"]
-        end
+    # These are tests from RFC 2289.
+    it "Tests md4 hex encoding" do
+        otp = OTP.new(99, "alpha1", "AbCdEfGhIjK", "md4")
+        otp.to_hex.should == "D150C82CCE6F62D1"
     end
 
-    ["md4", "md5", "sha1"].each do |algo|
-        it "Tests #{algo}" do
-            testit(algo) do |otp, expected|
-                otp.to_s.should == expected
-            end
-        end
-        it "Tests hex output" do
-            testit(algo) do |otp, expected|
-                otp.to_hex.should =~ /[0-9A-F]{16}$/ 
-            end
-        end
+    it "Tests md4 sentence encoding" do
+        otp = OTP.new(99, "alpha1", "AbCdEfGhIjK", "md4")
+        otp.to_s.should == "ROIL FREE COG HUNK WAIT COCA"
+    end
+
+    it "Tests md5 hex encoding" do
+        otp = OTP.new(99, "alpha1", "AbCdEfGhIjK", "md5")
+        otp.to_hex.should == "5AA37A81F212146C"
+    end
+
+    it "Tests md5 sentence encoding" do
+        otp = OTP.new(99, "alpha1", "AbCdEfGhIjK", "md5")
+        otp.to_s.should == "BODE HOP JAKE STOW JUT RAP"
+    end
+
+    # This test compares against the result I got from
+    # the java online OTP generator found at:
+    # http://www.cs.umd.edu/~harry/jotp
+    # The result is different from what RFC 2289 says it should be.
+    it "Tests md5 sentence encoding" do
+        otp = OTP.new(0, "TeSt", "This is a test.", "md5")
+        otp.to_s.should == "WYNN ACHE SOY DRAG DRAW ARCH"
     end
 
     it "Tests seed generator" do
@@ -56,7 +60,7 @@ describe "OTP" do
     end
 
     it "Tests parity" do
-        otp = OTP.new(99, "AValidSeed", "A_Valid_Passphrase", "md5")
+        otp = OTP.new(99, "AValidSeed", "A_Valid_Pass_Phrase", "md5")
         otp.to_s.should == "FOWL KID MASH DEAD DUAL OAF"
     end
 

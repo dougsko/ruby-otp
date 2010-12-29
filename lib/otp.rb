@@ -149,7 +149,7 @@ class OTP
             raise ArgumentError, 'passphrase contains non-ASCII characters' if b > 127
         end
 
-        if seed =~ /\s+/
+        if seed =~ /\s/
              raise ArgumentError, "seed must not contain spaces"
         end
 
@@ -177,10 +177,7 @@ class OTP
 
     # return integer for this OTP
     def to_i
-        (0...8).inject(0) do |sum, i|
-            sum <<= 8
-            sum |= (@hash[i] & 0xff)
-        end
+        @hash.unpack('H*')[0].to_i(16)
     end
 
     # return words sentence for this OTP
