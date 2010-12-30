@@ -1,3 +1,4 @@
+require 'rspec'
 require "otp"
 require "spec_helper"
 
@@ -59,4 +60,9 @@ describe "OTP" do
         otp.to_s.should == "FOWL KID MASH DEAD DUAL OAF"
     end
 
+    it "Tests sentence to hex conversion" do
+        otp = OTP.new(420, "anyseed", "anypassphrase", "md5")
+        sentence = "BODE HOP JAKE STOW JUT RAP"
+        otp.sentence_to_hex(sentence).should == "5AA37A81F212146C"
+    end
 end
