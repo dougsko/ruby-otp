@@ -63,12 +63,15 @@ end
 opts.parse(ARGV)
 if ARGV.size < 2 
     puts "Need at least two arguments"
+    puts opts
     exit
 elsif ARGV[ARGV.size - 2] !~ /^\d+$/ 
     puts "Need a sequence number"
+    puts opts
     exit
 elsif ARGV[ARGV.size - 1] !~ /^\w+$/
     puts "sequence number and seed must be the last two arguments specified. In that order."
+    puts otps
     exit
 end
 
