@@ -1,37 +1,30 @@
-# Rakefile for ruby-otp
-#
-#
-
-require 'yaml'
 require 'rubygems'
-
+require 'bundler'
 begin
-    require 'jeweler'
-    Jeweler::Tasks.new do |s|
-        s.name = "ruby-otp"
-        #s.executables = "jeweler"
-        s.summary = "Fork of the ruby-otp project at http://rubyforge.org/projects/ruby-otp"
-        s.email = "dougtko@gmail.com"
-        s.homepage = "http://github.com/dougsko/ruby-otp"
-        s.description = "Fork of the ruby-otp project at http://rubyforge.org/projects/ruby-otp.  This version provides support for more secure hashing algorithms."
-        s.authors = ["dougsko"]
-        s.files =  FileList["[A-Z]*", "{bin,generators,lib,spec}/**/*", 
-            'lib/jeweler/templates/.gitignore']
-        #s.add_dependency 'schacon-git'
+  Bundler.setup(:default, :development)
+rescue Bundler::BundlerError => e
+  $stderr.puts e.message
+  $stderr.puts "Run `bundle install` to install missing gems"
+  exit e.status_code
 end
-rescue LoadError
-    puts "Jeweler, or one of its dependencies, is not available. Install it with: sudo gem install 
-        technicalpickles-jeweler -s http://gems.github.com"
-end
+require 'rake'
 
-require 'rake/rdoctask'
-Rake::RDocTask.new do |rdoc|
-    rdoc.rdoc_dir = 'rdoc'
-    rdoc.title = 'ruby-otp'
-    rdoc.options << '--line-numbers' << '--inline-source'
-    rdoc.rdoc_files.include('README*')
-    rdoc.rdoc_files.include('lib/**/*.rb')
+require 'jeweler'
+Jeweler::Tasks.new do |gem|
+  # gem is a Gem::Specification... see http://docs.rubygems.org/read/chapter/20 for more options
+  gem.name = "ruby-otp"
+  gem.homepage = "http://github.com/dougsko/ruby-otp"
+  gem.license = "MIT"
+  gem.summary = %Q{Fork of the ruby-otp project at http://rubyforge.org/projects/ruby-otp.  This version provides support for more secure hashing algorithms.}
+  gem.description = %Q{Fork of the ruby-otp project at http://rubyforge.org/projects/ruby-otp.  This version provides support for more secure hashing algorithms.}
+  gem.email = "dougtko@gmail.com"
+  gem.authors = ["dougsko"]
+  # Include your dependencies below. Runtime dependencies are required when using your gem,
+  # and development dependencies are only needed for development (ie running rake tasks, tests, etc)
+  #  gem.add_runtime_dependency 'jabber4r', '> 0.1'
+  #  gem.add_development_dependency 'rspec', '> 1.2.3'
 end
+Jeweler::RubygemsDotOrgTasks.new
 
 require 'spec/rake/spectask'
 Spec::Rake::SpecTask.new(:spec) do |spec|
@@ -40,11 +33,19 @@ Spec::Rake::SpecTask.new(:spec) do |spec|
     spec.spec_opts = ['--color', '-H']
 end
 
-Spec::Rake::SpecTask.new(:rcov) do |spec|
-    spec.libs << 'lib' << 'spec'
-    spec.pattern = 'spec/**/*_spec.rb'
-    spec.rcov = true
-    spec.spec_opts = ['--color']
+RSpec::Core::RakeTask.new(:rcov) do |spec|
+  spec.pattern = 'spec/**/*_spec.rb'
+  spec.rcov = true
 end
 
 task :default => :spec
+
+require 'rake/rdoctask'
+Rake::RDocTask.new do |rdoc|
+  version = File.exist?('VERSION') ? File.read('VERSION') : ""
+
+  rdoc.rdoc_dir = 'rdoc'
+  rdoc.title = "ruby-otp #{version}"
+  rdoc.rdoc_files.include('README*')
+  rdoc.rdoc_files.include('lib/**/*.rb')
+end

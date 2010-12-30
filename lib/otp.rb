@@ -149,15 +149,19 @@ class OTP
             raise ArgumentError, 'passphrase contains non-ASCII characters' if b > 127
         end
 
-        if seed =~ /\s+/
+        if seed =~ /\s/
              raise ArgumentError, "seed must not contain spaces"
         end
 
-        if seed !~ /^\w+$/
+        if seed.match(/[\W|_]/)
             raise ArgumentError, "seed contains non alpha-numeric characters"
         end
 
-        @hash = seed+passphrase
+        if seed.length > 16
+            raise ArgumentError, "seed must between 1 and 16 characters in length"
+        end
+
+        @hash = seed.downcase + passphrase
 
         algo = ALGO_MAP[algo_str]
 
@@ -173,10 +177,7 @@ class OTP
 
     # return integer for this OTP
     def to_i
-        (0...8).inject(0) do |sum, i|
-            sum <<= 8
-            sum |= (@hash[i] & 0xff)
-        end
+        @hash.unpack('H*')[0].to_i(16)
     end
 
     # return words sentence for this OTP
