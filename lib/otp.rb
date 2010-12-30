@@ -224,4 +224,16 @@ class OTP
         to_i.to_s(16).upcase
     end
 
+    # TODO
+    def verified?(known, candidate)
+        if candidate.match(/\d/)
+            # return true if Hash(candidate) == known
+            number = candidate.to_i(16)
+            @hash = ["#{number}"].pack("H*")
+            run_hashing_algo(@hash).to_hex
+        else
+            # return true if Hash(sentence_to_hex(candidate)) == known
+        end
+        return false
+    end
 end
