@@ -88,6 +88,6 @@ options[:pass] = STDIN.gets.chomp
 `stty echo`
 
 (options[:num] - 1).downto(0) do |i|
-    otp = OTP.new(options[:seq_num] - i, options[:seed], options[:pass], options[:algo])
+    otp = OTP::Opie.new(options[:seq_num] - i, options[:seed], options[:pass], options[:algo])
     puts "#{options[:seq_num] - i}: #{otp.to_s}"
 end
