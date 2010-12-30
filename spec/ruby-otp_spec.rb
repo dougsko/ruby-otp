@@ -23,13 +23,9 @@ describe "OTP" do
         otp.to_s.should == "BODE HOP JAKE STOW JUT RAP"
     end
 
-    # This test compares against the result I got from
-    # the java online OTP generator found at:
-    # http://www.cs.umd.edu/~harry/jotp
-    # The result is different from what RFC 2289 says it should be.
     it "Tests md5 sentence encoding" do
         otp = OTP.new(0, "TeSt", "This is a test.", "md5")
-        otp.to_s.should == "WYNN ACHE SOY DRAG DRAW ARCH"
+        otp.to_s.should == "INCH SEA ANNE LONG AHEM TOUR"
     end
 
     it "Tests seed generator" do
@@ -38,7 +34,6 @@ describe "OTP" do
         end
     end
 
-    # Tests from RFC 2289
     it "Tests password too short" do
         expect{OTP.new(99, "iamvalid", "Too_short", "md5")}.to raise_error(ArgumentError)
     end

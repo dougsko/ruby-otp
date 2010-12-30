@@ -161,7 +161,7 @@ class OTP
             raise ArgumentError, "seed must between 1 and 16 characters in length"
         end
 
-        @hash = seed+passphrase
+        @hash = seed.downcase + passphrase
 
         algo = ALGO_MAP[algo_str]
 
