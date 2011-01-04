@@ -4,21 +4,23 @@ require 'yaml'
 
 module OTP
 
+ALGO_MAP = {'md4' => OpenSSL::Digest::MD4,
+            'md5' => Digest::MD5,
+            'sha1' => Digest::SHA1,
+            'sha256' => Digest::SHA2.new(bitlen = 256),
+            'sha384' => Digest::SHA2.new(bitlen = 384),
+            'sha512' => Digest::SHA2.new(bitlen = 512) }
+
+WORDS = YAML.load_file('lib/dict.yaml')
+
 class Opie
-    attr_accessor :hex, :sentence, :algo
-    @@words = YAML.load_file('lib/dict.yaml')
-    @@algo_map = {'md4' => OpenSSL::Digest::MD4,
-                  'md5' => Digest::MD5, 
-                  'sha1' => Digest::SHA1,
-                  'sha256' => Digest::SHA2.new(bitlen = 256),
-                  'sha384' => Digest::SHA2.new(bitlen = 384),
-                  'sha512' => Digest::SHA2.new(bitlen = 512) }
+    attr_accessor :hex, :sentence, :hash
 
     def initialize(algo_str = 'md5')
         @hash = ""
         @hex = ""
         @sentence = ""
-        @algo = @@algo_map[algo_str]
+        @algo = OTP::ALGO_MAP[algo_str]
     end
 
     # generate a pseudo-random seed like "gh1234" or "zf4326"
@@ -90,10 +92,10 @@ class Opie
         end
 
         4.downto(0) do |i|
-            sentence << @@words[ ((wi >> (i * 11 + 9)) & 0x7ff)] + " "
+            sentence << OTP::WORDS[ ((wi >> (i * 11 + 9)) & 0x7ff)] + " "
         end
 
-        sentence << @@words[ ((wi << 2) & 0x7fc) | (parity & 3) ]
+        sentence << OTP::WORDS[ ((wi << 2) & 0x7fc) | (parity & 3) ]
         sentence
     end
 
